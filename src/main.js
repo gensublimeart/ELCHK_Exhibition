@@ -350,13 +350,13 @@ function reinforceEmissive(root, data) {
 async function loadExhibition() {
   const loader = new GLTFLoader();
   const [data, gltf] = await Promise.all([
-    fetch("/models/scene.json").then((response) => {
+    fetch(`${import.meta.env.BASE_URL}models/scene.json`).then((response) => {
       if (!response.ok) throw new Error(`scene.json ${response.status}`);
       return response.json();
     }),
     new Promise((resolve, reject) => {
       loader.load(
-        "/models/exhibition.glb",
+        `${import.meta.env.BASE_URL}models/exhibition.glb`,
         resolve,
         (event) => {
           if (event.total) {

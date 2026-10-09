@@ -22,6 +22,20 @@ if errorlevel 1 goto missing_identity
 git config --get user.email >nul 2>&1
 if errorlevel 1 goto missing_identity
 
+where npm >nul 2>&1
+if errorlevel 1 (
+  echo Node.js is required to build the site. Install it from https://nodejs.org/
+  pause
+  exit /b 1
+)
+
+call npm run build
+if errorlevel 1 (
+  echo Build failed.
+  pause
+  exit /b 1
+)
+
 git add -A
 git diff --cached --quiet
 if errorlevel 1 (
@@ -68,7 +82,7 @@ set PUSH_ERR=%ERRORLEVEL%
 
 if not "%PUSH_ERR%"=="0" goto push_failed
 
-powershell -NoProfile -Command "$ErrorActionPreference='Stop'; $h=@{Authorization=('Bearer '+$env:GH_TOKEN);Accept='application/vnd.github+json';'User-Agent'='elchk-exhibition-upload';'X-GitHub-Api-Version'='2022-11-28'}; $body='{""source"":{""branch"":""main"",""path"":""/""}}'; $u='https://api.github.com/repos/gensublimeart/ELCHK_Exhibition/pages'; $ok=$false; try { Invoke-RestMethod -Method Post -Headers $h -ContentType 'application/json' -Body $body -Uri $u | Out-Null; $ok=$true } catch {}; if (-not $ok) { try { Invoke-RestMethod -Method Put -Headers $h -ContentType 'application/json' -Body $body -Uri $u | Out-Null; $ok=$true } catch {} }; if (-not $ok) { exit 1 }"
+powershell -NoProfile -Command "$ErrorActionPreference='Stop'; $h=@{Authorization=('Bearer '+$env:GH_TOKEN);Accept='application/vnd.github+json';'User-Agent'='elchk-exhibition-upload';'X-GitHub-Api-Version'='2022-11-28'}; $body='{""source"":{""branch"":""main"",""path"":""/docs""}}'; $u='https://api.github.com/repos/gensublimeart/ELCHK_Exhibition/pages'; $ok=$false; try { Invoke-RestMethod -Method Post -Headers $h -ContentType 'application/json' -Body $body -Uri $u | Out-Null; $ok=$true } catch { Write-Host $_.Exception.Message; if ($_.ErrorDetails) { Write-Host $_.ErrorDetails.Message } }; if (-not $ok) { try { Invoke-RestMethod -Method Put -Headers $h -ContentType 'application/json' -Body $body -Uri $u | Out-Null; $ok=$true } catch { Write-Host $_.Exception.Message; if ($_.ErrorDetails) { Write-Host $_.ErrorDetails.Message } } }; if (-not $ok) { exit 1 }"
 set PAGES_ERR=%ERRORLEVEL%
 call :cleanup
 
@@ -81,7 +95,7 @@ if not "%PAGES_ERR%"=="0" (
   echo   https://github.com/gensublimeart/ELCHK_Exhibition/settings/pages
   echo   Source: Deploy from a branch
   echo   Branch: main
-  echo   Folder: / ^(root^)
+  echo   Folder: /docs
 )
 pause
 exit /b 0
