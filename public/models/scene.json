@@ -1,0 +1,503 @@
+{
+  "space": "three-y-up",
+  "source": "M:\\2 Project\\2026_ELCHK\\1. Rendering\\2026_ELCHK_exhibition_setup_SEP.blend1",
+  "world": {
+    "color": [
+      0.58,
+      0.66,
+      0.76
+    ],
+    "strength": 0.35
+  },
+  "spawn": {
+    "name": "02 Manny and Fung interior",
+    "type": "PERSP",
+    "position": [
+      14.8,
+      1.55,
+      -0.5
+    ],
+    "lookAt": [
+      14.8473,
+      1.3133,
+      -1.4704
+    ]
+  },
+  "cameras": [
+    {
+      "name": "01 Overall cutaway",
+      "type": "ORTHO",
+      "position": [
+        39.0,
+        33.0,
+        30.0
+      ],
+      "lookAt": [
+        38.5836,
+        32.3893,
+        29.3264
+      ]
+    },
+    {
+      "name": "02 Manny and Fung interior",
+      "type": "PERSP",
+      "position": [
+        14.8,
+        1.55,
+        -0.5
+      ],
+      "lookAt": [
+        14.8473,
+        1.3133,
+        -1.4704
+      ]
+    },
+    {
+      "name": "03 Artwork detail",
+      "type": "PERSP",
+      "position": [
+        13.6673,
+        1.1,
+        -4.1553
+      ],
+      "lookAt": [
+        14.3613,
+        0.7429,
+        -3.5302
+      ]
+    },
+    {
+      "name": "04 Plan",
+      "type": "ORTHO",
+      "position": [
+        16.8,
+        40.0,
+        -6.4
+      ],
+      "lookAt": [
+        16.8,
+        39.0,
+        -6.4
+      ]
+    },
+    {
+      "name": "05 Craft and AI report walls",
+      "type": "PERSP",
+      "position": [
+        16.8,
+        1.72,
+        -6.35
+      ],
+      "lookAt": [
+        16.1214,
+        1.6923,
+        -7.084
+      ]
+    },
+    {
+      "name": "06 Projection and car",
+      "type": "PERSP",
+      "position": [
+        13.0,
+        2.1,
+        -8.1
+      ],
+      "lookAt": [
+        13.5075,
+        2.0559,
+        -7.2395
+      ]
+    },
+    {
+      "name": "07 A5 report wall detail",
+      "type": "PERSP",
+      "position": [
+        14.9,
+        1.65,
+        -8.35
+      ],
+      "lookAt": [
+        14.9,
+        1.6685,
+        -9.3498
+      ]
+    },
+    {
+      "name": "08 Craft wall detail",
+      "type": "PERSP",
+      "position": [
+        15.95,
+        1.7,
+        -8.65
+      ],
+      "lookAt": [
+        14.9506,
+        1.6667,
+        -8.65
+      ]
+    },
+    {
+      "name": "09 Manny Fung room cutaway",
+      "type": "PERSP",
+      "position": [
+        20.0,
+        14.0,
+        3.0
+      ],
+      "lookAt": [
+        19.7166,
+        13.2065,
+        2.4615
+      ]
+    },
+    {
+      "name": "10 Red-line wooden box arrangement",
+      "type": "PERSP",
+      "position": [
+        16.85,
+        2.1,
+        -9.8
+      ],
+      "lookAt": [
+        16.2295,
+        1.6918,
+        -9.1305
+      ]
+    },
+    {
+      "name": "11 Red-line plan verification",
+      "type": "ORTHO",
+      "position": [
+        15.1,
+        18.0,
+        -7.5
+      ],
+      "lookAt": [
+        15.1,
+        17.0,
+        -7.5
+      ]
+    },
+    {
+      "name": "12 Wooden shelving and report wall",
+      "type": "PERSP",
+      "position": [
+        16.95,
+        2.2,
+        -5.05
+      ],
+      "lookAt": [
+        16.4664,
+        1.8488,
+        -5.8517
+      ]
+    }
+  ],
+  "lights": [
+    {
+      "name": "Daylight softbox",
+      "shape": "DISK",
+      "energy": 3500.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 12.0,
+      "sizeY": 0.25,
+      "threePosition": [
+        12.0,
+        16.0,
+        6.0
+      ],
+      "threeDirection": [
+        0.0,
+        -0.8,
+        -0.6
+      ]
+    },
+    {
+      "name": "Gallery ambient",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        4.5,
+        3.05,
+        -3.8
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.001",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        4.5,
+        3.05,
+        -9.3
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.002",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        10.0,
+        3.05,
+        -3.8
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.003",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        10.0,
+        3.05,
+        -9.3
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.004",
+      "shape": "DISK",
+      "energy": 85.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        15.0,
+        3.05,
+        -3.8
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.005",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        15.0,
+        3.05,
+        -9.3
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.006",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        20.0,
+        3.05,
+        -3.8
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.007",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        20.0,
+        3.05,
+        -9.3
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.008",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        25.0,
+        3.05,
+        -3.8
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Gallery ambient.009",
+      "shape": "DISK",
+      "energy": 190.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 3.5,
+      "sizeY": 0.25,
+      "threePosition": [
+        25.0,
+        3.05,
+        -9.3
+      ],
+      "threeDirection": [
+        0.0,
+        -1.0,
+        -0.0
+      ]
+    },
+    {
+      "name": "Overview fill",
+      "shape": "DISK",
+      "energy": 2300.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "size": 10.0,
+      "sizeY": 0.25,
+      "threePosition": [
+        28.0,
+        19.0,
+        -12.0
+      ],
+      "threeDirection": [
+        -0.5464,
+        -0.7986,
+        0.2522
+      ]
+    }
+  ],
+  "emissive": [
+    {
+      "material": "Linear light diffuser",
+      "strength": 3.0,
+      "color": [
+        1.0,
+        0.94,
+        0.82
+      ],
+      "textured": false
+    },
+    {
+      "material": "Projection - First Cut video frame 00 01 00",
+      "strength": 0.9,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textured": true
+    },
+    {
+      "material": "Projector lens blue glass",
+      "strength": 0.7,
+      "color": [
+        0.2,
+        0.5,
+        0.9
+      ],
+      "textured": false
+    }
+  ],
+  "skipCollisionCollections": [
+    "07 Lighting",
+    "08 Cameras"
+  ],
+  "skipCollisionNameIncludes": [
+    "suspension",
+    "diffuser",
+    "strip light"
+  ]
+}

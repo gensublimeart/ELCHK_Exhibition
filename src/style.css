@@ -1,0 +1,101 @@
+:root {
+  color-scheme: dark;
+  --paper: #f3efe6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #141311;
+  font-family: "Segoe UI", sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 17, 15, 0.46);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+.card {
+  width: min(28rem, calc(100% - 2rem));
+  padding: 1.8rem 2rem 1.6rem;
+  background: rgba(20, 19, 17, 0.78);
+  border: 1px solid rgba(243, 239, 230, 0.28);
+}
+
+.eyebrow {
+  margin: 0 0 0.45rem;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+}
+
+h1 {
+  margin: 0 0 0.8rem;
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+#status,
+.keys {
+  margin: 0.35rem 0;
+  line-height: 1.45;
+}
+
+.keys {
+  color: rgba(243, 239, 230, 0.78);
+  font-size: 0.92rem;
+}
+
+#crosshair {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -4px;
+  border: 1px solid rgba(243, 239, 230, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#crosshair.visible {
+  display: block;
+}
+
+#hint {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1.1rem;
+  margin: 0;
+  text-align: center;
+  color: rgba(243, 239, 230, 0.82);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+#hint.visible {
+  display: block;
+}
