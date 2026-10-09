@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/ELCHK_Exhibition/" : "/",
+  base: command === "build" ? "/ELCHK_Exhibition/docs/" : "/",
   build: {
     outDir: "docs",
     emptyOutDir: true,
