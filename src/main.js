@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const EYE = 1.6;
@@ -19,15 +18,16 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.06, 120);
 camera.rotation.order = "YXZ";
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  powerPreference: "high-performance",
+});
+renderer.setPixelRatio(1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.82;
 document.body.prepend(renderer.domElement);
-
-RectAreaLightUniformsLib.init();
 
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -121,43 +121,19 @@ function lookToward(target) {
   camera.rotation.set(pitch, yaw, 0);
 }
 
-function lightSize(light) {
-  if (light.shape === "RECTANGLE") return { width: light.size, height: light.sizeY || light.size };
-  return { width: light.size, height: light.size };
-}
-
-function nitsFromEnergy(light) {
-  const exterior = /daylight|overview/i.test(light.name);
-  // Three.js area-light intensity is much hotter than a watt-to-nit conversion.
-  // These scales keep the white gallery walls from clipping, with the two
-  // exterior softboxes dimmer than the ceiling panels.
-  return light.energy * (exterior ? 0.0012 : 0.011);
-}
-
 function addLights(data) {
   const world = data.world;
-  scene.background = new THREE.Color(world.color[0], world.color[1], world.color[2]);
-  const hemi = new THREE.HemisphereLight(
-    new THREE.Color(world.color[0], world.color[1], world.color[2]),
-    new THREE.Color(0.24, 0.16, 0.1),
-    world.strength
-  );
-  scene.add(hemi);
+  const sky = new THREE.Color(world.color[0], world.color[1], world.color[2]);
+  scene.background = sky;
+  scene.add(new THREE.HemisphereLight(sky, new THREE.Color(0.32, 0.22, 0.14), 1.15));
 
-  for (const spec of data.lights) {
-    const { width, height } = lightSize(spec);
-    const rect = new THREE.RectAreaLight(
-      new THREE.Color(spec.color[0], spec.color[1], spec.color[2]),
-      nitsFromEnergy(spec),
-      width,
-      height
-    );
-    rect.name = spec.name;
-    rect.position.set(spec.threePosition[0], spec.threePosition[1], spec.threePosition[2]);
-    const dir = new THREE.Vector3(spec.threeDirection[0], spec.threeDirection[1], spec.threeDirection[2]);
-    rect.lookAt(rect.position.clone().add(dir));
-    scene.add(rect);
-  }
+  const sun = new THREE.DirectionalLight(0xfff6ea, 1.35);
+  sun.position.set(18, 24, 10);
+  scene.add(sun);
+
+  const fill = new THREE.DirectionalLight(0xd7e4f4, 0.42);
+  fill.position.set(-10, 14, -8);
+  scene.add(fill);
 }
 
 function isCollider(obj, data) {
@@ -195,21 +171,15 @@ function movementBlocked(position, dx, dz) {
   const len = Math.hypot(dx, dz);
   if (len < 1e-8) return false;
   const dir = new THREE.Vector3(dx / len, 0, dz / len);
-  const side = new THREE.Vector3(-dir.z, 0, dir.x);
   const feetY = position.y - EYE;
-  const heights = [position.y - 1.1, position.y - 0.35];
+  const heights = [position.y - 1.05, position.y - 0.4];
   for (const height of heights) {
-    for (const offset of [0, 0.14, -0.14]) {
-      raycaster.set(
-        new THREE.Vector3(position.x + side.x * offset, height, position.z + side.z * offset),
-        dir
-      );
-      raycaster.far = len + RADIUS;
-      const hits = raycaster.intersectObjects(colliders, false);
-      if (!hits.length) continue;
-      const hit = hits[0];
-      if (hit.distance <= len + RADIUS * 0.85 && !isClimbable(hit, feetY)) return true;
-    }
+    raycaster.set(new THREE.Vector3(position.x, height, position.z), dir);
+    raycaster.far = len + RADIUS;
+    const hits = raycaster.intersectObjects(colliders, false);
+    if (!hits.length) continue;
+    const hit = hits[0];
+    if (hit.distance <= len + RADIUS * 0.85 && !isClimbable(hit, feetY)) return true;
   }
   return false;
 }
@@ -287,10 +257,12 @@ function movePlayer(dt) {
     const dx = camera.position.x - before.x;
     const dz = camera.position.z - before.z;
     camera.position.copy(before);
-    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.12));
+    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.2));
     for (let i = 0; i < steps; i += 1) tryStep(dx / steps, dz / steps);
+    updateVertical(dt);
+  } else if (verticalVelocity !== 0) {
+    updateVertical(dt);
   }
-  updateVertical(dt);
 }
 
 function glazingFamily(name) {
@@ -329,6 +301,34 @@ function seatGlazingOnFloor(root) {
     }
   }
   root.updateMatrixWorld(true);
+}
+
+function simplifyMaterials(root) {
+  const seen = new Set();
+  root.traverse((obj) => {
+    if (!obj.isMesh) return;
+    const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
+    for (const mat of materials) {
+      if (!mat || seen.has(mat)) continue;
+      seen.add(mat);
+      if (mat.transmission > 0) {
+        mat.transmission = 0;
+        mat.thickness = 0;
+        mat.transparent = true;
+        mat.opacity = 0.42;
+        mat.depthWrite = false;
+        mat.metalness = 0;
+      }
+      mat.envMapIntensity = Math.min(mat.envMapIntensity ?? 1, 0.3);
+    }
+  });
+}
+
+function isWalkBlocker(obj) {
+  const box = new THREE.Box3().setFromObject(obj);
+  const size = box.getSize(new THREE.Vector3());
+  const dims = [size.x, size.y, size.z].sort((a, b) => b - a);
+  return dims[0] > 0.4 && dims[1] > 0.15;
 }
 
 function reinforceEmissive(root, data) {
@@ -373,10 +373,15 @@ async function loadExhibition() {
   scene.add(gltf.scene);
   gltf.scene.updateMatrixWorld(true);
   seatGlazingOnFloor(gltf.scene);
+  simplifyMaterials(gltf.scene);
   reinforceEmissive(gltf.scene, data);
+  gltf.scene.traverse((obj) => {
+    obj.matrixAutoUpdate = false;
+  });
+  gltf.scene.updateMatrixWorld(true);
   colliders = [];
   gltf.scene.traverse((obj) => {
-    if (isCollider(obj, data)) colliders.push(obj);
+    if (isCollider(obj, data) && isWalkBlocker(obj)) colliders.push(obj);
   });
 
   const spawn = data.spawn;
@@ -402,6 +407,7 @@ let last = performance.now();
 renderer.setAnimationLoop((now) => {
   const dt = Math.min(0.05, (now - last) / 1000);
   last = now;
+  if (document.hidden) return;
   if (ready) movePlayer(dt);
   renderer.render(scene, camera);
 });
